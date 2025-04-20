@@ -1,0 +1,75 @@
+<div id="quiz" class="section">
+  <div class="section-center">
+    <div class="container">
+      <app-quiz #quiz [style.display]="(showQuizScreen)?'block':'none'" (finalResult)="finalResult($event)"></app-quiz>
+      <app-result #result [style.display]="(showResultScreen)?'block':'none'" (showMainMenuScreen)="showMainMenuScreen()" [playerName]="playerName"></app-result>
+
+      <div [style.display]="(showMainMenu)?'block':'none'" class="row justify-content-md-center">
+        <div class="col-md-6 mx-auto">
+          <div class="quiz-form">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <span class="form-label">Player Name</span>
+                  <input type="text" [(ngModel)]="playerName" class="form-control" placeholder="Enter your name">
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="form-group">
+                  <span class="form-label">Difficulty</span>
+                  <select class="form-control" [(ngModel)]="difficulty">
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="form-group">
+                  <span class="form-label">Questions</span>
+                  <select class="form-control" [(ngModel)]="questionsLimit">
+                    <option>5</option>
+                    <option>10</option>
+                    <option>15</option>
+                    <option>20</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="form-group">
+                  <span class="form-label">Category</span>
+                  <select class="form-control" [(ngModel)]="selectedCategory">
+                    <option *ngFor="let category of categories" [value]="category.name">{{category.name}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-btn">
+                <button class="submit-btn" (click)="quizQuestions()" *ngIf="!spinner">Start Quiz</button>
+                <button class="submit-btn" type="button" disabled *ngIf="spinner">
+                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  Loading...
+                </button>
+              </div>
+
+              <div *ngIf="histories.length > 0" class="history-section mt-4">
+                <h3>Game History</h3>
+                <ul class="list-group">
+                  <li class="list-group-item" *ngFor="let history of histories">
+                    {{ history.playerName }} played on {{ history.date | date:'short' }}: 
+                    {{ history.correct }}/{{ history.total }} correct ({{ history.correctPercentage }}%)
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
